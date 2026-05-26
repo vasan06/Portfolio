@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ data.name }} — Portfolio</title>
+  <meta name="description" content="{{ data.summary }}" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+
+  <!-- Three.js from CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- 3D Background Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ─────────────────── NAV ─────────────────── -->
+<nav>
+  <a href="#hero" class="nav-logo">KR<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#credentials">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ─────────────────── HERO ─────────────────── -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <div class="hero-eyebrow">Based in Coimbatore, Tamil Nadu</div>
+
+  <h1 class="hero-name">
+    <span class="line1">Keerthivasan</span>
+    <span class="line2">Radhakrishnan</span>
+  </h1>
+
+  <p class="hero-title">
+    <span id="typing-role">Software Systems Engineer</span>
+    <span style="opacity:0.4;animation:pulse 1s infinite;">_</span>
+  </p>
+
+  <p class="hero-desc">
+    Building intelligent systems, full-stack platforms, and ML-powered applications.
+    Bridging Python elegance with modern web experiences.
+  </p>
+
+  <div class="hero-ctas">
+    <a href="#projects" class="btn-primary">View Work</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─────────────────── ABOUT ─────────────────── -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+
+      <div class="about-left">
+        <div class="section-label reveal">About Me</div>
+        <h2 class="section-title reveal reveal-delay-1">
+          Crafting code<br />
+          <span style="color:var(--accent)">with purpose.</span>
+        </h2>
+
+        <p class="reveal reveal-delay-2" style="font-size:1rem;line-height:1.85;color:var(--text-dim);margin-bottom:1.2rem;">
+          I'm a M.Sc. Software Systems student at PSG College of Arts & Science,
+          passionate about building systems that are both technically rigorous and
+          genuinely useful — from ML platforms to web automation tools.
+        </p>
+        <p class="reveal reveal-delay-3" style="font-size:1rem;line-height:1.85;color:var(--text-dim);margin-bottom:2rem;">
+          With hands-on experience across full-stack development, machine learning,
+          and research publication, I bring a builder's mindset to every challenge.
+          Currently exploring quantum-inspired approaches to software engineering.
+        </p>
+
+        <!-- Skills pills -->
+        <div class="skills-wrap reveal reveal-delay-3">
+          <div class="skill-group">
+            <div class="skill-group-label">Languages</div>
+            <div class="skill-pills">
+              {% for s in data.skills.languages %}
+              <span class="skill-pill pill-lang">{{ s }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Web</div>
+            <div class="skill-pills">
+              {% for s in data.skills.web %}
+              <span class="skill-pill pill-web">{{ s }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Machine Learning</div>
+            <div class="skill-pills">
+              {% for s in data.skills.ml %}
+              <span class="skill-pill pill-ml">{{ s }}</span>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="skill-group">
+            <div class="skill-group-label">Tools</div>
+            <div class="skill-pills">
+              {% for s in data.skills.tools %}
+              <span class="skill-pill pill-tools">{{ s }}</span>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="about-stats">
+          <div class="stat-card reveal reveal-delay-4">
+            <div class="stat-num" data-count="5">0</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+          <div class="stat-card reveal reveal-delay-5">
+            <div class="stat-num" data-count="8.3">0</div>
+            <div class="stat-label">Current CGPA</div>
+          </div>
+          <div class="stat-card reveal reveal-delay-4">
+            <div class="stat-num" data-count="6">0</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat-card reveal reveal-delay-5">
+            <div class="stat-num" data-count="1">0</div>
+            <div class="stat-label">Research Papers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3D Skills Orbit -->
+      <div class="about-visual reveal reveal-delay-2">
+        <div style="position:relative;text-align:center;">
+          <canvas id="skills-canvas" width="400" height="400"></canvas>
+          <div style="margin-top:1rem;font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--text-muted);letter-spacing:0.15em;text-transform:uppercase;">
+            Skills Constellation
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─────────────────── PROJECTS ─────────────────── -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label reveal">Selected Work</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Things I've<br />
+      <span style="color:var(--accent2)">built & shipped.</span>
+    </h2>
+
+    <div class="projects-grid">
+      {% for p in data.projects %}
+      <div class="project-card reveal reveal-delay-{{ loop.index }}" style="--card-accent:{{ p.color }};">
+        <div class="project-card-top">
+          <div class="project-icon">{{ p.icon }}</div>
+          <div class="project-accent-dot" style="background:{{ p.color }};box-shadow:0 0 12px {{ p.color }};"></div>
+        </div>
+
+        <div class="project-name">{{ p.name }}</div>
+        <div class="project-subtitle">{{ p.subtitle }}</div>
+        <p class="project-desc">{{ p.description }}</p>
+        <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.65;margin-bottom:1.2rem;">{{ p.detail }}</p>
+
+        <div class="project-tags">
+          {% for t in p.tech %}
+          <span class="tag">{{ t }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─────────────────── RESEARCH ─────────────────── -->
+<section id="research">
+  <div class="section-inner">
+    <div class="section-label reveal">Research</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Published<br />
+      <span style="color:var(--accent3)">academic work.</span>
+    </h2>
+
+    <div style="margin-top:3rem;">
+      <div class="research-card reveal reveal-delay-2">
+        <div class="research-badge">
+          <span>★</span>
+          Peer Reviewed — IJRPR 2026
+        </div>
+
+        <h3 class="research-title">
+          {{ data.research.title }}
+        </h3>
+
+        <div class="research-journal">
+          {{ data.research.journal }} &nbsp;·&nbsp; {{ data.research.volume }}
+        </div>
+
+        <p class="research-desc">{{ data.research.description }}</p>
+
+        <div style="margin-top:2rem;display:flex;flex-wrap:wrap;gap:0.6rem;">
+          <span class="tag" style="border-color:rgba(139,92,246,0.4);color:var(--accent3);background:rgba(139,92,246,0.07);">Quantum Computing</span>
+          <span class="tag" style="border-color:rgba(139,92,246,0.4);color:var(--accent3);background:rgba(139,92,246,0.07);">DevOps</span>
+          <span class="tag" style="border-color:rgba(139,92,246,0.4);color:var(--accent3);background:rgba(139,92,246,0.07);">CI/CD</span>
+          <span class="tag" style="border-color:rgba(139,92,246,0.4);color:var(--accent3);background:rgba(139,92,246,0.07);">Automation</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─────────────────── CREDENTIALS ─────────────────── -->
+<section id="credentials">
+  <div class="section-inner">
+    <div class="section-label reveal">Background</div>
+    <h2 class="section-title reveal reveal-delay-1">
+      Education &<br />
+      <span style="color:var(--gold)">certifications.</span>
+    </h2>
+
+    <div class="credentials-grid">
+      <!-- Education -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:1.5rem;" class="reveal reveal-delay-1">
+          — Education
+        </div>
+
+        <div class="edu-card reveal reveal-delay-2">
+          <div class="edu-degree">{{ data.education.degree }}</div>
+          <div class="edu-college">{{ data.education.college }}</div>
+          <div class="edu-meta">
+            <div class="edu-meta-item">
+              <span>Duration</span>
+              <strong>{{ data.education.year }}</strong>
+            </div>
+            <div class="edu-meta-item">
+              <span>CGPA</span>
+              <strong>{{ data.education.cgpa }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Workshop -->
+        <div class="workshop-badge reveal reveal-delay-3">
+          <div class="workshop-badge-icon">🏛️</div>
+          <div class="workshop-text">
+            <strong>Data Science Using Python — IISc Bangalore</strong>
+            Workshop by Ethical Ltd. in association with Pravega 2024
+          </div>
+        </div>
+      </div>
+
+      <!-- Certifications -->
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-muted);text-transform:uppercase;margin-bottom:1.5rem;" class="reveal reveal-delay-1">
+          — Certifications
+        </div>
+
+        <div class="certs-list">
+          {% for cert in data.certifications %}
+          <div class="cert-item reveal reveal-delay-{{ loop.index }}">
+            <div class="cert-dot"></div>
+            <div class="cert-name">{{ cert.name }}</div>
+            <div class="cert-issuer">{{ cert.issuer }}</div>
+            <div class="cert-year">{{ cert.year }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ─────────────────── CONTACT ─────────────────── -->
+<section id="contact">
+  <div class="grid-bg"></div>
+  <div class="section-inner contact-inner" style="text-align:center;max-width:700px;margin:0 auto;padding-top:10rem;padding-bottom:10rem;">
+
+    <div class="section-label reveal" style="justify-content:center;">Let's Connect</div>
+
+    <h2 class="reveal reveal-delay-1" style="font-size:clamp(2.2rem,6vw,4.5rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:1.5rem;">
+      Got an interesting<br />
+      <span style="background:linear-gradient(135deg,var(--accent),var(--accent2),var(--accent3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">project in mind?</span>
+    </h2>
+
+    <p class="reveal reveal-delay-2" style="font-size:1rem;color:var(--text-muted);line-height:1.75;margin-bottom:3rem;max-width:480px;margin-left:auto;margin-right:auto;">
+      I'm actively looking for internship opportunities in Software Development,
+      Python Development, and ML roles. Let's build something remarkable together.
+    </p>
+
+    <div class="reveal reveal-delay-3" style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+      <a href="mailto:keerthivasan83000@gmail.com" class="contact-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        keerthivasan83000@gmail.com
+      </a>
+
+      <div style="display:flex;gap:1rem;margin-top:0.5rem;">
+        <a href="https://github.com" target="_blank" class="btn-ghost" style="font-size:0.68rem;">
+          GitHub ↗
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="btn-ghost" style="font-size:0.68rem;">
+          LinkedIn ↗
+        </a>
+      </div>
+    </div>
+
+    <p class="reveal reveal-delay-4" style="margin-top:4rem;font-family:'Space Mono',monospace;font-size:0.65rem;color:var(--text-muted);letter-spacing:0.1em;">
+      +91 8300022991 &nbsp;·&nbsp; Coimbatore, Tamil Nadu
+    </p>
+  </div>
+</section>
+
+<!-- ─────────────────── FOOTER ─────────────────── -->
+<footer>
+  <span>© 2026 Keerthivasan R. All rights reserved.</span>
+  <span>Built with Flask + Three.js</span>
+  <span>Coimbatore, Tamil Nadu</span>
+</footer>
+
+<!-- Main JS -->
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
